@@ -1,22 +1,17 @@
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { RootState } from '@App/store/reducers';
+import { Event } from '@App/store/types';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { requestAllEvents } from '../../store/actions';
 
 import Title from '@App/components/Title';
 import Logo from '@App/components/Logo';
 import SubTitle from '@App/components/SubTitle';
+import DataSelector from '@App/components/DataSelector';
+
+ // import store from '@App/store';
 
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
-
-interface AppProps {
-
-}
-
-interface AppState {
-
-}
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -32,14 +27,15 @@ const AppContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
 
-class App extends React.Component<AppProps, AppState> {
-  public constructor(props: AppProps) {
-    super(props);
+class App extends React.Component <StateProps> {
+  componentWillMount() {
+    this.props.dispatch(requestAllEvents('df50cac5-293c-490d-a06c-ee26796f850d'));
+    // tslint:disable-next-line:no-console
+    console.log(this);
   }
 
   public render() {
@@ -50,14 +46,24 @@ class App extends React.Component<AppProps, AppState> {
           <Logo src={LogoUrl} />
           <Title>Welcome to the birdie test</Title>
           <SubTitle>Best of luck!</SubTitle>
+          <DataSelector />
         </AppContainer>
       </>
     );
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: object) => {};
+const mapStateToProps = (state) => {
+  return {
+    events: state.eventsState.events,
+    types: state.eventsState.types
+  };
+};
 
-const mapDispatchToProps = (dispatch: Dispatch<RootState>) => {};
+interface StateProps {
+  data?: Event[];
+  types?: string[];
+  dispatch?: any;
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
