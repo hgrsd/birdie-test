@@ -1,11 +1,46 @@
 import dbCon from "./db";
 
-export function retrieveEventTypes(care_recipient_id: string) {
+// @TODO: implement initial call to db to fetch all types rather than hardcode
+const eventTypes = new Set([
+    "fluid_intake_observation",
+    "task_completed",
+    "physical_health_observation",
+    "visit_completed",
+    "check_out",
+    "mood_observation",
+    "regular_medication_taken",
+    "alert_raised",
+    "no_medication_observation_received",
+    "incontinence_pad_observation",
+    "check_in",
+    "general_observation",
+    "regular_medication_not_taken",
+    "food_intake_observation",
+    "task_completion_reverted",
+    "mental_health_observation",
+    "medication_schedule_updated",
+    "visit_cancelled",
+    "regular_medication_maybe_taken",
+    "medication_schedule_created",
+    "alert_qualified",
+    "task_schedule_created",
+    "concern_raised",
+    "regular_medication_partially_taken",
+    "catheter_observation",
+    "toilet_visit_recorded"
+]);
+
+const isValidUUID = (uuid: string): boolean => {
+    return new RegExp(/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/i).test(uuid);
+}
+
+export function retrieveEventTypes(careRecipientID: string): Promise<String[]> {
     return new Promise((resolve, reject) => {
-        runQuery(`SELECT event_type FROM events WHERE care_recipient_id = ${dbCon.escape(care_recipient_id)};`)
+        if (!isValidUUID(careRecipientID)) reject('Invalid UUID');
+        runQuery(`SELECT event_type FROM events WHERE care_recipient_id = ${dbCon.escape(careRecipientID)};`)
         .then(
             res => {
-                let types = new Set();
+                let types = new Set<String>();
                 for (const row of res) {
                     types.add(Object(row).event_type);
                 }
@@ -17,12 +52,13 @@ export function retrieveEventTypes(care_recipient_id: string) {
     });
 }
 
-export function retrieveData(care_recipient_id:   string = "",
-                             event_type:          string = "",
-                             date_from:           string = "",
-                             date_to:             string = "") {
+export function retrieveData(careRecipientID:   string = "",
+                             eventType:         string = "",
+                             dateFrom:          string = "",
+                             dateTo:            string = "") : Promise<Object[]> {
     return new Promise((resolve, reject) => {
-        const query = buildQuery(care_recipient_id, event_type, date_from, date_to);
+        if (!isValidUUID(careRecipientID)) reject('Invalid UUID');
+        const query = buildQuery(careRecipientID, eventType, dateFrom, dateTo);
         runQuery(query).then(res => {
             let objects = [];
             for (const row of res) {
@@ -35,26 +71,29 @@ export function retrieveData(care_recipient_id:   string = "",
     });
 }
 
-function buildQuery(care_recipient_id:   string = "",
-                    event_type:          string = "",
-                    date_from:           string = "",
-                    date_to:             string = "") {
+function buildQuery(careRecipientID:   string = "",
+                    eventType:         string = "",
+                    dateFrom:          string = "",
+                    dateTo:            string = ""): string {
     let query = "SELECT payload FROM events";
     let conditions = 0;
-    if (care_recipient_id) {
-        query += ` WHERE care_recipient_id = ${dbCon.escape(care_recipient_id)}`;
+    if (careRecipientID) {
+        query += ` WHERE care_recipient_id = ${dbCon.escape(careRecipientID)}`;
         conditions++;
     }
-    if (event_type) {
-        query += (conditions == 0 ? " WHERE " : " AND ") + `event_type = ${dbCon.escape(event_type)}`;
+    if (eventTypes.has(eventType)) {
+        query += (conditions == 0 ? " WHERE " : " AND ") +
+        `event_type = ${dbCon.escape(eventType)}`;
         conditions++;
     }
-    if (date_from) {
-        query += (conditions == 0 ? " WHERE " : " AND ") + `timestamp >= ${dbCon.escape(date_from)}`;
+    if (dateFrom) {
+        query += (conditions == 0 ? " WHERE " : " AND ") +
+        `timestamp >= '${new Date(dateFrom).toISOString().slice(0, 10)}'`;
         conditions++;
     }
-    if (date_to){
-        query += (conditions == 0 ? " WHERE " : " AND ") + `timestamp <= ${dbCon.escape(date_to)}`;
+    if (dateTo){
+        query += (conditions == 0 ? " WHERE " : " AND ") +
+        `timestamp <= ${new Date(dateTo).toISOString().slice(0, 10)}}`;
         conditions++;
     }
     return query + ";"
