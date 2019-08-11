@@ -14,6 +14,8 @@ function* fetchData(action: Action) {
   }
   try {
       const response = yield fetch(request);
+      // tslint:disable-next-line:no-console
+      console.log(response);
       const responseBody = yield response.json();
       if ('error' in responseBody) {
         yield put(requestFailed(responseBody.error));
@@ -36,7 +38,7 @@ function* fetchData(action: Action) {
           return;
       }
   } catch (e) {
-      return;
+      yield put(requestFailed(e));
   }
 }
 

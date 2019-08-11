@@ -32,31 +32,38 @@ export class CareRecipientSelector extends React.Component<DSProps, DSState> {
     }
 
     handleSubmit(e: any) {
+        if (!this.isValidUUID(this.state.value)) {
+            this.props.dispatch(actions.requestFailed('Invalid UUID.'));
+            return;
+        }
         this.props.dispatch(actions.updateCareRecipientID(this.state.value));
         this.props.dispatch(actions.requestTypes(this.state.value));
-        e.preventDefault();
     }
 
     handleChangeUser() {
         this.props.dispatch(actions.clearAllState());
     }
 
+    isValidUUID = (uuid: string): boolean => {
+        return new RegExp(/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/i).test(uuid);
+    }
+
     render() {
         if (this.props.careRecipientID === '') {
             return (
                 <div>
-                    <h5>Enter a Care Recipient ID to get started.</h5>
+                    <h5>Welcome. Please enter a Care Recipient ID to get started.</h5>
                     <input
                         type="text"
                         name="care_recipient_id"
                         value={this.state.value}
-                        size={40}
+                        size={36}
                         onChange={this.handleChange}
                     />
                     <button className="button-primary" value="Go" onClick={this.handleSubmit}>
                         Go
                     </button>
-                    {this.props.error === true ? <h5>Error: {this.props.errorMessage}</h5> : ''}
+                    {this.props.error === true ? <h6>Error: {this.props.errorMessage}</h6> : ''}
                 </div>
             );
         } else {

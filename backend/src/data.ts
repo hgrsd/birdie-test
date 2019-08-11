@@ -57,7 +57,7 @@ export function retrieveData(careRecipientID:   string = "",
                              dateFrom:          string = "",
                              dateTo:            string = "") : Promise<Object[]> {
     return new Promise((resolve, reject) => {
-        if (careRecipientID && !isValidUUID(careRecipientID)) reject('Invalid UUID');
+        if (!isValidUUID(careRecipientID)) reject('Invalid UUID');
         const query = buildQuery(careRecipientID, eventType, dateFrom, dateTo);
         runQuery(query).then(res => {
             let objects = [];

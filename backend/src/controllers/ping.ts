@@ -4,19 +4,6 @@ import * as data from "../data"
 
 export const pingController = express.Router();
 
-pingController.get('/events', (req, res) => {
-  data.retrieveData(
-    "",
-    req.query.event_type,
-    req.query.date_from,
-    req.query.date_to
-  ).then((objects) => {
-    res.status(200).json({"data": objects});
-  }).catch((err) => {
-    res.status(500).json({"error": err});
-  });
-});
-
 pingController.get('/events/types/:care_recipient_id', (req, res) => {
   data.retrieveEventTypes(req.params.care_recipient_id)
   .then((objects) => {
