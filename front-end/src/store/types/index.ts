@@ -1,4 +1,4 @@
-export interface Event {
+export interface CareEvent {
     id: string;
     fluid?: string;
     observed?: boolean;
@@ -44,6 +44,10 @@ export interface Action {
 }
 
 export interface RootState {
-    events: Event[];
+    events: CareEvent[];
+    error: boolean;
+    errorMessage: string;
     types: string[];
+    currentType: string;
+    careRecipientID: string;
 }

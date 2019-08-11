@@ -1,54 +1,36 @@
 import * as React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import { Event } from '@App/store/types';
+import { CareEvent } from '@App/store/types';
 import { connect } from 'react-redux';
-import { requestAllEvents } from '../../store/actions';
 
-import Title from '@App/components/Title';
 import Logo from '@App/components/Logo';
-import SubTitle from '@App/components/SubTitle';
-import DataSelector from '@App/components/DataSelector';
+import TypeSelector from '@App/components/TypeSelector';
+import DataViewer from '@App/components/DataViewer';
+import CareRecipientSelector from '@App/components/CareRecipientSelector';
 
  // import store from '@App/store';
 
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    height: 100vh;
-    background-color: #F9F9F9;
-    > div {
-      height: 100%;
-    }
-  }
-`;
-
-const AppContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-`;
-
 class App extends React.Component <StateProps> {
-  componentWillMount() {
-    this.props.dispatch(requestAllEvents('df50cac5-293c-490d-a06c-ee26796f850d'));
-    // tslint:disable-next-line:no-console
-    console.log(this);
-  }
 
   public render() {
     return (
       <>
-        <GlobalStyle />
-        <AppContainer>
-          <Logo src={LogoUrl} />
-          <Title>Welcome to the birdie test</Title>
-          <SubTitle>Best of luck!</SubTitle>
-          <DataSelector />
-        </AppContainer>
-      </>
+        <div className="container">
+          <div className="row">
+              <Logo src={LogoUrl} />
+              <h1>Client Portal</h1>
+          </div>
+          <div className="row">
+              <CareRecipientSelector />
+              <br /><br />
+          </div>
+          <div className="row">
+              <TypeSelector />
+              <DataViewer />
+          </div>
+        </div>
+      </ >
     );
   }
 }
@@ -61,7 +43,7 @@ const mapStateToProps = (state) => {
 };
 
 interface StateProps {
-  data?: Event[];
+  events?: CareEvent[];
   types?: string[];
   dispatch?: any;
 }

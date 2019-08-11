@@ -9,16 +9,20 @@ interface DSState {
 }
 
 interface DSProps {
-    data?: Event[];
-    types?: string[];
-    dispatch?: any;
+    events: Event[];
+    error: boolean;
+    errorMessage: string;
+    types: string[];
+    careRecipientID: string;
+    dispatch: any;
+    currentType: string;
 }
 
-export class DataSelector extends React.Component<DSProps, DSState> {
+export class TypeSelector extends React.Component<DSProps, DSState> {
     constructor(props: DSProps) {
         super(props);
         this.state = {
-            value: 'Care Recipient UUID'
+            value: ''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,8 +33,7 @@ export class DataSelector extends React.Component<DSProps, DSState> {
     }
 
     handleSubmit(e: any) {
-        // tslint:disable-next-line:no-console
-        console.log(this);
+        this.props.dispatch(actions.updateCareRecipientID(this.state.value));
         this.props.dispatch(actions.requestTypes(this.state.value));
         e.preventDefault();
     }
@@ -39,25 +42,28 @@ export class DataSelector extends React.Component<DSProps, DSState> {
         const types = this.props.types ? this.props.types.map(
             type => <TypeButton value={type} key={type}/>
         ) : [];
-        return (
-            <div>
-                <p>
-                    <input type="text" name="care_recipient_id" value={this.state.value} onChange={this.handleChange} />
-                    <input type="submit" value="Request" onClick={this.handleSubmit} />
-                </p>
-                <p>
+        if (types.length > 0) {
+            return (
+                <div className="four columns">
+                    {<TypeButton value="all" key="all" />}
                     {types}
-                </p>
-            </div>
-        );
+                </div>
+            );
+        } else {
+            return ('');
+        }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
       events: state.eventsState.events,
-      types: state.eventsState.types
+      types: state.eventsState.types,
+      error: state.eventsState.error,
+      errorMessage: state.eventsState.errorMessage,
+      careRecipientID: state.eventsState.careRecipientID,
+      currentType: state.eventsState.currentType
     };
 };
 
-export default connect(mapStateToProps)(DataSelector);
+export default connect(mapStateToProps)(TypeSelector);

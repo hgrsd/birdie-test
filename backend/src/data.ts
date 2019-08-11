@@ -57,7 +57,7 @@ export function retrieveData(careRecipientID:   string = "",
                              dateFrom:          string = "",
                              dateTo:            string = "") : Promise<Object[]> {
     return new Promise((resolve, reject) => {
-        if (!isValidUUID(careRecipientID)) reject('Invalid UUID');
+        if (careRecipientID && !isValidUUID(careRecipientID)) reject('Invalid UUID');
         const query = buildQuery(careRecipientID, eventType, dateFrom, dateTo);
         runQuery(query).then(res => {
             let objects = [];
@@ -96,7 +96,7 @@ function buildQuery(careRecipientID:   string = "",
         `timestamp <= ${new Date(dateTo).toISOString().slice(0, 10)}}`;
         conditions++;
     }
-    return query + ";"
+    return query + " ORDER BY timestamp DESC;"
 }
 
 function runQuery(query: string): Promise<Object[]> {
