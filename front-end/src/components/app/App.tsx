@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Logo from '@App/components/Logo';
 import TypeSelector from '@App/components/TypeSelector';
-import DataViewer from '@App/components/DataViewer';
+import DataSelector from '@App/components/DataSelector';
 import CareRecipientSelector from '@App/components/CareRecipientSelector';
 
  // import store from '@App/store';
@@ -18,16 +18,16 @@ class App extends React.Component <StateProps> {
       <>
         <div className="container">
           <div className="row">
-              <Logo src={LogoUrl} />
-              <h1>Client Portal</h1>
+            <Logo src={LogoUrl} />
+            <h1>Client Portal</h1>
           </div>
-          <div className="row">
+          <div className="row center">
               <CareRecipientSelector />
               <br /><br />
           </div>
           <div className="row">
               <TypeSelector />
-              <DataViewer />
+              <DataSelector />
           </div>
         </div>
       </ >

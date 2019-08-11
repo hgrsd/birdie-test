@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { CareEvent } from '@App/store/types';
 
-interface EventProp {
+interface EventProps {
     events: CareEvent[];
-    currentType: string;
 }
 
-export class EventView extends React.Component <EventProp> {
-    constructor(props: EventProp) {
+export class IncontinencePadObservationView extends React.Component <EventProps> {
+    constructor(props: EventProps) {
         super(props);
     }
 
@@ -27,7 +25,7 @@ export class EventView extends React.Component <EventProp> {
                     {new Date(event.timestamp).toString().split('(')[0].slice(16, 21)}
                 </td>
                 <td>
-                    {event.event_type}
+                    {event.pad_condition}
                 </td>
                 <td>
                     {event.note ? event.note : 'No notes available'}
@@ -41,7 +39,7 @@ export class EventView extends React.Component <EventProp> {
                     <tr>
                         <th>Date</th>
                         <th>Time</th>
-                        <th>Type</th>
+                        <th>Pad Condition</th>
                         <th>Notes</th>
                     </tr>
                 </thead>
@@ -53,10 +51,4 @@ export class EventView extends React.Component <EventProp> {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-      currentType: state.eventsState.currentType,
-    };
-};
-
-export default connect(mapStateToProps)(EventView);
+export default IncontinencePadObservationView;

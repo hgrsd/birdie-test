@@ -52,7 +52,7 @@ export class CareRecipientSelector extends React.Component<DSProps, DSState> {
         if (this.props.careRecipientID === '') {
             return (
                 <div>
-                    <h5>Welcome. Please enter a Care Recipient ID to get started.</h5>
+                    <h5>Please enter a Care Recipient ID to get started.</h5>
                     <input
                         type="text"
                         name="care_recipient_id"

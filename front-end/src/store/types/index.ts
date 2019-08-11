@@ -33,7 +33,7 @@ export interface CareEvent {
     medication_schedule_id?: string;
     alert_severity?: string;
     severity?: string;
-    volume_ml?: number;
+    consumed_volume_ml?: number;
     visit_type?: string;
     visit_count?: number;
 }

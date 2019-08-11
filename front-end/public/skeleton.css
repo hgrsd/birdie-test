@@ -32,21 +32,37 @@
   position: relative;
   width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0;
   box-sizing: border-box; }
 .column,
 .columns {
-  width: 100%;
+  width: 80%;
   float: left;
-  max-height: 700px;
-  overflow: auto;
   box-sizing: border-box; }
+
+.spread {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
 
 /* For devices larger than 400px */
 @media (min-width: 400px) {
   .container {
     width: 85%;
     padding: 0; }
+}
+.scrolling {
+  max-height: 600px;
+  overflow: auto;
 }
 
 /* For devices larger than 550px */
@@ -324,6 +340,7 @@ pre > code {
 th,
 td {
   text-align: left;
+  max-width: 250px;
   border-bottom: 1px solid #54c6c1; }
 th:first-child,
 td:first-child {
