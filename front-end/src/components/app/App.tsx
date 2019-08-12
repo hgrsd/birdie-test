@@ -7,8 +7,6 @@ import TypeSelector from '@App/components/TypeSelector';
 import DataSelector from '@App/components/DataSelector';
 import CareRecipientSelector from '@App/components/CareRecipientSelector';
 
- // import store from '@App/store';
-
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
 
 class App extends React.Component <StateProps> {

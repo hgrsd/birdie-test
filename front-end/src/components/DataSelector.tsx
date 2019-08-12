@@ -67,18 +67,6 @@ export class DataSelector extends React.Component<DSProps, {}> {
             }
             return (
                 <div className="eight columns">
-                    <b>Start date: </b>
-                    <input
-                        type="text"
-                        name="startDate"
-                        value={this.props.events[this.props.events.length - 1].timestamp.slice(0, 10)}
-                    />
-                    <b>End date: </b>
-                    <input
-                        type="text"
-                        name="endDate"
-                        value={this.props.events[0].timestamp.slice(0, 10)}
-                    />
                     <div className="row scrolling">
                         {displayEvents}
                     </div>
