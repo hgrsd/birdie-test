@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import { requestEventsByType, requestAllEvents } from '@App/store/actions';
+import { prettify } from '@App/utils';
 
 interface DSState {
     value: string;
@@ -32,11 +34,6 @@ export class TypeButton extends React.Component<DSProps, DSState> {
         }
     }
 
-    prettify(input: string) {
-        let words = input.split('_');
-        return words.map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
-    }
-
     render() {
         return (
             <div>
@@ -45,7 +42,7 @@ export class TypeButton extends React.Component<DSProps, DSState> {
                     value={this.props.value}
                     onClick={this.handleClick}
                 >
-                    {this.prettify(this.props.value)}
+                    {prettify(this.props.value)}
                 </button>
             </div>
         );

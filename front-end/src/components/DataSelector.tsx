@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import { CareEvent } from '@App/store/types';
 
 import AllEventView from '@App/components/eventviews/AllEventView';

@@ -1,11 +1,12 @@
-import * as mysql from "mysql"
+import * as mysql from 'mysql'
+import * as dbconfig from '../config'
 
 const dbCon = mysql.createConnection({
-    host: 'birdie-test.cyosireearno.eu-west-2.rds.amazonaws.com',
-    port: 3306,
-    user: 'test-read',
-    password: 'xnxPp6QfZbCYkY8',
-    database: 'birdietest'
+    host: dbconfig.host,
+    port: dbconfig.port,
+    user: dbconfig.user,
+    password: dbconfig.password,
+    database: dbconfig.database
 });
 
 export default dbCon;

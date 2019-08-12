@@ -1,5 +1,7 @@
 import * as React from 'react';
+
 import { CareEvent } from '@App/store/types';
+import { prettify, extractDate, extractTime } from '@App/utils';
 
 interface EventProps {
     events: CareEvent[];
@@ -10,22 +12,17 @@ export class AllEventView extends React.Component <EventProps> {
         super(props);
     }
 
-    prettify(input: string) {
-        let words = input.split('_');
-        return words.map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ');
-    }
-
     render () {
         const eventRows = this.props.events.map(event => (
             <tr key={event.id}>
                 <td>
-                    {new Date(event.timestamp).toString().split('(')[0].slice(4, 16)}
+                    {extractDate(event.timestamp)}
                 </td>
                 <td>
-                    {new Date(event.timestamp).toString().split('(')[0].slice(16, 21)}
+                    {extractTime(event.timestamp)}
                 </td>
                 <td>
-                    {this.prettify(event.event_type)}
+                    {prettify(event.event_type)}
                 </td>
                 <td>
                     {event.note ? event.note : 'No notes available'}

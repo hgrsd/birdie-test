@@ -1,5 +1,7 @@
 import * as React from 'react';
+
 import { CareEvent } from '@App/store/types';
+import { extractTime, extractDate } from '@App/utils';
 
 interface EventProp {
     events: CareEvent[];
@@ -14,10 +16,10 @@ export class MoodView extends React.Component <EventProp> {
         const moodRows = this.props.events.map(event => (
             <tr key={event.id}>
                 <td>
-                    {new Date(event.timestamp).toString().split('(')[0].slice(4, 16)}
+                    {extractDate(event.timestamp)}
                 </td>
                 <td>
-                    {new Date(event.timestamp).toString().split('(')[0].slice(16, 21)}
+                    {extractTime(event.timestamp)}
                 </td>
                 <td>
                     {event.mood ? event.mood : 'No mood recorded'}

@@ -1,6 +1,6 @@
 import dbCon from "./db";
 
-// @TODO: implement initial call to db to fetch all types rather than hardcode
+// TODO: Place initial db call that fetches all event types present, rather than hard-code.
 const eventTypes = new Set([
     "fluid_intake_observation",
     "task_completed",
@@ -40,7 +40,7 @@ export function retrieveEventTypes(careRecipientID: string): Promise<String[]> {
         runQuery(`SELECT event_type FROM events WHERE care_recipient_id = ${dbCon.escape(careRecipientID)};`)
         .then(
             res => {
-                let types = new Set<String>();
+                let types = new Set<String>(); // create set of all types, return as Array
                 for (const row of res) {
                     types.add(Object(row).event_type);
                 }
@@ -60,7 +60,7 @@ export function retrieveData(careRecipientID:   string = "",
         if (!isValidUUID(careRecipientID)) reject('Invalid UUID');
         const query = buildQuery(careRecipientID, eventType, dateFrom, dateTo);
         runQuery(query).then(res => {
-            let objects = [];
+            let objects = []; // parse Event payload strings into Objects and return as Array
             for (const row of res) {
                 objects.push(JSON.parse(Object(row).payload));
             }
@@ -96,7 +96,7 @@ function buildQuery(careRecipientID:   string = "",
         `timestamp <= ${new Date(dateTo).toISOString().slice(0, 10)}}`;
         conditions++;
     }
-    return query + " ORDER BY timestamp DESC;"
+    return query + " ORDER BY timestamp DESC;" // order query by date descending
 }
 
 function runQuery(query: string): Promise<Object[]> {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '@App/store/actions';
+import { isValidUUID } from '@App/utils';
 
 interface DSState {
     value: string;
@@ -24,7 +25,7 @@ export class CareRecipientSelector extends React.Component<DSProps, DSState> {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChangeUser = this.handleChangeUser.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
     }
 
     handleChange(e: any) {
@@ -32,7 +33,7 @@ export class CareRecipientSelector extends React.Component<DSProps, DSState> {
     }
 
     handleSubmit(e: any) {
-        if (!this.isValidUUID(this.state.value)) {
+        if (!isValidUUID(this.state.value)) {
             this.props.dispatch(actions.requestFailed('Invalid UUID.'));
             return;
         }
@@ -40,12 +41,8 @@ export class CareRecipientSelector extends React.Component<DSProps, DSState> {
         this.props.dispatch(actions.requestTypes(this.state.value));
     }
 
-    handleChangeUser() {
+    handleLogOut() {
         this.props.dispatch(actions.clearAllState());
-    }
-
-    isValidUUID = (uuid: string): boolean => {
-        return new RegExp(/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/i).test(uuid);
     }
 
     render() {
@@ -70,7 +67,7 @@ export class CareRecipientSelector extends React.Component<DSProps, DSState> {
             return(
                 <div>
                     <h5>Viewing data for {this.props.careRecipientID}.</h5>
-                    <button className="button" value="Change User" onClick={this.handleChangeUser}>Change User</button>
+                    <button className="button" value="Change User" onClick={this.handleLogOut}>Log out</button>
                 </div>
             );
         }

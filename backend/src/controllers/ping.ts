@@ -1,9 +1,9 @@
 import * as express from "express";
 import * as data from "../data"
 
-
 export const pingController = express.Router();
 
+// Retrieve list of all event types available for specified care recipient
 pingController.get('/events/types/:care_recipient_id', (req, res) => {
   data.retrieveEventTypes(req.params.care_recipient_id)
   .then((objects) => {
@@ -13,6 +13,7 @@ pingController.get('/events/types/:care_recipient_id', (req, res) => {
   });
 });
 
+// Retrieve all events of specified type for care recipient
 pingController.get('/events/:care_recipient_id', (req, res) => {
   data.retrieveData(
     req.params.care_recipient_id,
