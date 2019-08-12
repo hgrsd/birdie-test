@@ -100,7 +100,6 @@ function buildQuery(careRecipientID:   string = "",
 }
 
 function runQuery(query: string): Promise<Object[]> {
-    console.log(query);
     return new Promise((resolve, reject) => {
         dbCon.query(query, (err, res) => {
             if (err) reject(err);

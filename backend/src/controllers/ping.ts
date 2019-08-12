@@ -9,7 +9,7 @@ pingController.get('/events/types/:care_recipient_id', (req, res) => {
   .then((objects) => {
     res.status(200).json({"data": objects});
   }).catch((err) => {
-    res.status(500).json({"error": err});
+    res.status(400).json({"error": err});
   });
 });
 
@@ -22,6 +22,6 @@ pingController.get('/events/:care_recipient_id', (req, res) => {
   ).then((objects) => {
     res.status(200).json({"data": objects});
   }).catch((err) => {
-    res.status(500).json({"error": err});
+    res.status(400).json({"error": err});
   });
 });
