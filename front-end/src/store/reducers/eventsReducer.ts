@@ -27,7 +27,7 @@ export default function eventsReducer(state: RootState = initialState, action: A
             return {
                 ...initialState,
                 error: true,
-                errorMessage: action.payload ? action.payload : 'Error requesting data.'
+                errorMessage: 'Error requesting data.'
             };
 
         case RECEIVE_EVENTS:

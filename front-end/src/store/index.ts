@@ -1,4 +1,4 @@
-import { applyMiddleware, compose, createStore, GenericStoreEnhancer } from 'redux';
+import { applyMiddleware, compose, createStore, StoreEnhancer } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { rootReducer } from '@App/store/reducers';
 import initSaga from '@App/store/sagas';
@@ -6,7 +6,7 @@ import initSaga from '@App/store/sagas';
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__: () => undefined;
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: (arg: GenericStoreEnhancer) => undefined;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: (arg: StoreEnhancer) => undefined;
   }
 }
 
